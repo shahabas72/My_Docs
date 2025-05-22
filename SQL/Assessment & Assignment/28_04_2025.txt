@@ -1,0 +1,101 @@
+CREATE DATABASE Products;
+Use Products;
+
+CREATE TABLE Product_info (Product_ID int primary key auto_increment, Product_name varchar(50), Price decimal(10,2));
+
+Select * from Product_info;
+
+INSERT INTO Product_info (Product_name, Price) 
+VALUES ('Soap', 45.50), ('Milk', 30.60), ('Plate', 120.00), ('Water', 20.00);
+
+select* from Product_info;
+
+Delete from Product_info Where Product_ID= 2;
+
+INSERT INTO Product_info (Product_name, Price) Values ('Apple', 140);
+
+SELECT SUM(Price) AS Total_Price FROM Product_info;
+
+SELECT AVG(Price) AS Average_Price FROM Product_info;
+
+SELECT MAX(Price) AS Maximum_Price FROM Product_info;
+
+SELECT MIN(Price) AS Minimum_Price FROM Product_info;
+
+SELECT COUNT(Product_name) AS Total_product FROM Product_info;
+
+SELECT * FROM Product_info WHERE Price = 45.50;
+
+SELECT * FROM Product_info WHERE Price > 20 AND Product_name = 'Soap';
+
+SELECT * FROM Product_info WHERE Price > 100 OR Product_name = 'Milk';
+
+SELECT * FROM Product_info WHERE Price = (SELECT MIN(Price) FROM Product_info);
+
+ALTER TABLE Product_info MODIFY Product_name VARCHAR(50) NOT NULL;
+
+SELECT * FROM Product_info WHERE Price BETWEEN 30 AND 100;
+
+SELECT * FROM Product_info WHERE Product_name IN ('Soap', 'Milk', 'Plate');
+
+SELECT * FROM Product_info WHERE Product_name LIKE 'S%';
+
+ALTER TABLE Product_info ADD Category VARCHAR(255);
+
+______________________________________________________________________________________________________________
+
+CREATE DATABASE MyDatabase;
+USE MyDatabase;
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Email VARCHAR(50)
+);
+
+CREATE TABLE Orders (
+    OrderID INT PRIMARY KEY,
+    CustomerID INT,
+    Product VARCHAR(50),
+    Quantity INT,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+INSERT INTO Customers (CustomerID, Name, Email) VALUES
+(1, 'Sachin', 'sachin@gmail.com'),
+(2, 'Nithin', 'nithin@gmail.com'),
+(3, 'Sagar', 'sagar@gamil.com');
+
+INSERT INTO Orders (OrderID, CustomerID, Product, Quantity) VALUES
+(101, 1, 'Laptop', 1),
+(102, 2, 'Mouse', 3),
+(103, 1, 'Keyboard', 2),
+(104, 3, 'Monitor', 1);
+
+SELECT * FROM Orders;
+SELECT * FROM Customers;
+
+INSERT INTO Customers (CustomerID, Name, Email) VALUES
+(4, 'Shahabas', 'shahabas@gmail.com');
+
+SELECT Customers.customer_name, Customers.Email, Orders.Product, Orders.Quantity FROM Customers INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+SELECT Product, Quantity FROM Orders WHERE Quantity = (SELECT MAX(Quantity) FROM Orders);
+
+ALTER TABLE Customers CHANGE Name customer_name VARCHAR(50);
+
+SELECT Customers.customer_name, Customers.Email, Orders.Product, Orders.Quantity
+FROM Customers
+LEFT JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID;
+
+SELECT Customers.customer_name, Customers.Email, Orders.Product, Orders.Quantity
+FROM Customers
+RIGHT JOIN Orders
+ON Customers.CustomerID = Orders.CustomerID;
+
+SELECT SUM(Quantity) AS Total_Quantity FROM Orders;
+
+SELECT Product, SUM(Quantity) AS TotalQuantity FROM Orders GROUP BY Product;
+
+SELECT COUNT(Product) AS Total_product FROM Orders;
